@@ -4,18 +4,43 @@ package birds;
  * This class represents a bird record in the database. Each record consists of two
  * parts: a DataKey and the data associated with the DataKey.
  */
-public class BirdRecord {
+public class BirdRecord{
 
- 
+    DataKey key;
+    String about;
+    String sound;
+    String image;
 
     // default constructor
-    public BirdRecord() {
-       
-        
+    public BirdRecord(){
+    }
+    
+    public BirdRecord(DataKey k, String abt, String snd, String img) {
+       this.key = k;
+       this.about = abt;
+       this.sound = snd;
+       this.image = img;
     }
 
      // Other constructors
- 
+    public DataKey getDataKey(){
+        return this.key;
+    }
+    
+    public String getAbout(){
+        return this.about;
+    }
+    
+    public String getSound(){
+        return this.sound;
+    }
+    
+    public String getImage(){
+        return this.image;
+    }
+    
+    
+    }
 
 
 }
