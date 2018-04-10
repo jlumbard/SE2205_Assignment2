@@ -8,12 +8,8 @@ package birds;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -62,7 +58,7 @@ public class BirdsController implements Initializable {
     @FXML
     private ComboBox sizeBox;
     
-    //Set some global screen variables
+    //screen variables
     private  OrderedDictionary tree;
     
     private BirdRecord current,temp;
