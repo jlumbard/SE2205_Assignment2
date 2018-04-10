@@ -2,10 +2,12 @@ package birds;
 
 public class DataKey {
 
-    String birdName;
-    int birdSize;
+    private String birdName;
+    private int birdSize;
 	// default constructor
-	public DataKey(int size, String name) {
+        public DataKey(){}
+    
+	public DataKey(String name, int size) {
 	 this.birdName = name;
          this.birdSize = size;
 	}
