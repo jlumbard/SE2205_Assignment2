@@ -20,7 +20,6 @@ public class OrderedDictionary implements OrderedDictionaryADT{
     @Override
     public BirdRecord find(DataKey k) throws DictionaryException {
         Node temp = findNode(root, k);
-        
         if (temp!=null){
         return temp.GetBirdRecord();
         }else{
@@ -29,7 +28,7 @@ public class OrderedDictionary implements OrderedDictionaryADT{
     }
         
     
-    public Node findNode (Node root, DataKey k){
+    private Node findNode (Node root, DataKey k){
         Node current = this.root;
         
         while (current != null && current.GetBirdRecord().getDataKey().compareTo(k) !=0)

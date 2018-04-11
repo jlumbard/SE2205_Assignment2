@@ -13,11 +13,11 @@ public class DataKey {
 	}
         
         public String getBirdName(){
-        return this.birdName;
+        return birdName;
         }
         
         public int getBirdSize(){
-        return this.birdSize;
+        return birdSize;
         }
         
 	// other constructors

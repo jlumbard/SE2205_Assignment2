@@ -24,19 +24,19 @@ public class BirdRecord{
 
      // Other constructors
     public DataKey getDataKey(){
-        return this.key;
+        return key;
     }
     
     public String getAbout(){
-        return this.about;
+        return about;
     }
     
     public String getSound(){
-        return this.sound;
+        return sound;
     }
     
     public String getImage(){
-        return this.image;
+        return image;
     }
     
     

@@ -251,9 +251,6 @@ public class BirdsController implements Initializable {
     
     public void play(){
         
-        playBtn.setOpacity(0.7);
-        stopBtn.setOpacity(1.0);
-        
         String soundFile = current.getSound();
         Media hit = new Media(new File(soundFile).toURI().toString());
         mediaPlayer  = new MediaPlayer(hit);
@@ -266,9 +263,6 @@ public class BirdsController implements Initializable {
     
     public void stop(){
         if(mediaPlayer!=null){
-            stopBtn.setOpacity(0.7);
-            playBtn.setOpacity(1.0);
-
             mediaPlayer.stop();
         }
     }
