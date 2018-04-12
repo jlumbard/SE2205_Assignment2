@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package birds;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,99 +26,99 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Abdelkader
+ * @author Abdelkader aka "BROCK AND KEV"
  */
 public class BirdsController implements Initializable {
-
+    @FXML
+    private Text birdName;
+    @FXML
+    private Text birdAbout;
+    @FXML
+    private Text nameTitle;
+    @FXML
+    private Text sizeTitle;
     @FXML
     private MenuBar mainMenu;
-    
-    //all button components
     @FXML
-    private Button firstBtn,nextBtn,previousBtn,lastBtn,deleteBtn,playBtn,stopBtn,findBtn;
-    
-    //all division pane components
+    private Button firstBtn;
     @FXML
-    private Pane controlDIV,contentDIV,mediaDIV, searchDIV;
-    
-    //all text components
+    private Button nextBtn;
     @FXML
-    private Text birdName,birdAbout;
-    
+    private Button previousBtn;
+    @FXML
+    private Button lastBtn;
+    @FXML
+    private Button deleteBtn;
+    @FXML
+    private Button playBtn;
+    @FXML
+    private Button stopBtn;
+    @FXML
+    private Button findBtn;
+    @FXML
+    private Pane controlPane;
+    @FXML
+    private Pane contentPane;
+    @FXML
+    private Pane mediaPane;
+    @FXML
+    private Pane searchPane;
+    @FXML
+    private Pane buttonPane;
     @FXML
     private ImageView birdImage;
-   
     @FXML
     private TextField nameEntry;
-    
     @FXML
     private ComboBox sizeBox;
+
     
-    //screen variables
-    private  OrderedDictionary tree;
     
-    private BirdRecord current,temp;
-    
-    private MediaPlayer mediaPlayer;
-    
-  
-    @FXML
-    public void exit() {
-        Stage stage = (Stage) mainMenu.getScene().getWindow();
-        stage.close();
-    }
-    
-    //Fill Dictionary calls load with the textfile to load from
+    //not fxml tagged, reg variables
+    private MediaPlayer media;
+    private OrderedDictionary tree;
+    private BirdRecord recordToUse;
+    private BirdRecord temp;
+   
     public void fillDictionary(){
         loadDictionary("BirdsDatabase.txt");
-        //starts off with the first bird and updates the screen
         try{
-        current = tree.smallest();
-        updateScreen(current);
-        
-        }catch(Exception e){
+        recordToUse = tree.smallest();//IMPORTANT
+        refreshPaneData(recordToUse);
+        }catch(DictionaryException e){
             displayError(e.toString());
         }
-        //shows the screen 
         show(true);
     }
-    
-    //Loads text file- adds to tree
     public void loadDictionary(String fileName){
-        Scanner input;
-        String size,name,description;
-        tree = new OrderedDictionary();
-        try{
-        input = new Scanner(new File(fileName));
         
-        while(input.hasNext()){
-            size = input.nextLine();
-            name = input.nextLine();
-            description = input.nextLine();
-            
-            DataKey key = new DataKey(name,Integer.parseInt(size));
-            BirdRecord record = new BirdRecord(key,description,"src/sounds/"+name+".mp3","images/"+name+".jpg");
-            
+        String birdSizeFromDic;
+        String birdNameFromDic;
+        String birdDescriptionFromDic;
+        tree = new OrderedDictionary();
+        Scanner myScanner;
+        try{
+        myScanner = new Scanner(new File(fileName));
+        while(myScanner.hasNext()){
+            birdSizeFromDic = myScanner.nextLine();
+            birdNameFromDic = myScanner.nextLine();
+            birdDescriptionFromDic = myScanner.nextLine();
+            DataKey key = new DataKey(birdNameFromDic,Integer.parseInt(birdSizeFromDic));
+            BirdRecord record = new BirdRecord(key,birdDescriptionFromDic,"src/sounds/"+birdNameFromDic+".mp3","images/"+birdNameFromDic+".jpg");
             try{
-                //records added to tree
                 tree.insert(record);
             }catch(DictionaryException e){
                 displayError(e.toString());
             }
-            
         }
-        
-        }catch(Exception e){
+        }catch(FileNotFoundException | NumberFormatException e){
             displayError(e.toString());
         }
     }
-    
-    //displays the current birdRecord on screen
-    public void updateScreen(BirdRecord R){
-        stop();
+    public void refreshPaneData(BirdRecord R){
+        //ws
         birdName.setText(R.getDataKey().getBirdName());
         birdAbout.setText(R.getAbout());
-        
         try{
             Image bird = new Image(R.getImage());
             birdImage.setImage(bird);
@@ -130,203 +126,153 @@ public class BirdsController implements Initializable {
             displayError(e.toString());
         }
     }
-    
-    //initial styling of the application look
-    public void setStyling(){
-        firstBtn.setStyle("-fx-background-color: #ADFF2F;");
-        nextBtn.setStyle("-fx-background-color: #ADFF2F;");
-        previousBtn.setStyle("-fx-background-color: #ADFF2F;");
-        lastBtn.setStyle("-fx-background-color: #ADFF2F;");
-        deleteBtn.setStyle("-fx-background-color: #FF0000;");
-        playBtn.setStyle("-fx-background-color: #008000;");
-        stopBtn.setStyle("-fx-background-color: #008000;");
-        stopBtn.setOpacity(0.7);
-       
-        findBtn.setStyle("-fx-background-color: #ADD8E6");
-        mediaDIV.setStyle("-fx-border-color: black");
+    public void changeStyle(){
+        searchPane.setStyle("-fx-background-color: white;");
+        sizeTitle.setStyle("-fx-background-color: white;");
+        nameTitle.setStyle("-fx-background-color: white;");
+        firstBtn.setStyle("-fx-background-color: red;");
+        nextBtn.setStyle("-fx-background-color: red;");
+        previousBtn.setStyle("-fx-background-color: red;");
+        lastBtn.setStyle("-fx-background-color: red;");
+        deleteBtn.setStyle("-fx-background-color: #f45942;");
+        playBtn.setStyle("-fx-background-color: green;");
+        stopBtn.setStyle("-fx-background-color: green;");
+        findBtn.setStyle("-fx-background-color: pink;");
         
     }
-    
-    //Components enable/disable control
     public void show(boolean value){
-        stop();
-        controlDIV.setDisable(!value);
-        controlDIV.setVisible(value);
-        
-        contentDIV.setDisable(!value);
-        contentDIV.setVisible(value);
-        
-        mediaDIV.setDisable(!value);
-        mediaDIV.setVisible(value);
-        
-        searchDIV.setDisable(!value);
-        searchDIV.setVisible(value); 
-        
-        
+        //ws 
+        controlPane.setVisible(value);
+        contentPane.setVisible(value);
+        mediaPane.setVisible(value);
+        searchPane.setVisible(value); 
+        buttonPane.setVisible(value);
     }
-    
-    //first in the tree displayed on screen
     public void first(){
         try{
-            current = tree.smallest();
-            updateScreen(current);
+            recordToUse = tree.smallest();//<3 tree use
+            refreshPaneData(recordToUse);
         }catch(DictionaryException e){
             displayError(e.toString());   
         }
     }
-    
-    //Goes to the next in tree
     public void next(){
         try{
-            //sets current to next
-            current = tree.successor(current.getDataKey());
-            //stops and sound if it was playing
-            //updates screen
-            updateScreen(current);
+            recordToUse = tree.successor(recordToUse.getDataKey());
+            refreshPaneData(recordToUse);
         }catch(DictionaryException e){
             displayError(e.toString());
-        }
-        
+        }   
     }
-    
-    //Goes to the previous in tree
-    public void previous(){
-        try{
-            current = tree.predecessor(current.getDataKey());
-            updateScreen(current);
-        }catch(DictionaryException e){
-            displayError(e.toString());
-        }
-    }
-    
-    //Goes to the last (LARGEST) in tree
     public void last(){
         try{
-            current = tree.largest();
-            updateScreen(current);
+            recordToUse = tree.largest();
+            refreshPaneData(recordToUse);
         }catch(DictionaryException e){
             displayError(e.toString());
         }
-        
+    }
+    public void previous(){
+        try{
+            recordToUse = tree.predecessor(recordToUse.getDataKey());
+            refreshPaneData(recordToUse);
+        }catch(DictionaryException e){
+            displayError(e.toString());
+        }
     }
     
-    //Delete
     public void delete() throws DictionaryException{
-        //Uses temp to find the next or previous for setting current to after delete takes place
-     
         temp = null;
         try{
-            BirdRecord next = tree.successor(current.getDataKey());
+            BirdRecord next = tree.successor(recordToUse.getDataKey());
             temp = next;
         }catch(DictionaryException e){
             try{
-                BirdRecord prev = tree.predecessor(current.getDataKey());
+                BirdRecord prev = tree.predecessor(recordToUse.getDataKey());
                 temp = prev;
             }catch(DictionaryException ex){
+                displayError(ex.toString());
             }
         }
-        
-        //Remove the element from the tree
         try{
-            tree.remove(current.getDataKey());
+            tree.remove(recordToUse.getDataKey());
         }catch(DictionaryException e){
             displayError(e.toString());
         }
-        
-        
         if(!tree.isEmpty()){
-            //if there is a previous or next: set current to that
            if(temp !=null){
-               current = temp;
+               recordToUse = temp;
            }
-           //update screen 
-           updateScreen(current);
+           refreshPaneData(recordToUse);
         }else{
-            //tree is empty: set show to false and display the error: no birds to show
             show(false);
-            displayError("No more birds in the database to show");
-        }
-        
+            displayError("OUT OF BIRDS TO DISPLAY");
+        }   
     }
-    
     public void play(){
-        
-        String soundFile = current.getSound();
-        Media hit = new Media(new File(soundFile).toURI().toString());
-        mediaPlayer  = new MediaPlayer(hit);
-        mediaPlayer.play();
-        
-       
-
-        
+        String soundFile = recordToUse.getSound();
+        Media banger = new Media(new File(soundFile).toURI().toString());
+        media  = new MediaPlayer(banger);
+        media.play();
     }
     
     public void stop(){
-        if(mediaPlayer!=null){
-            mediaPlayer.stop();
+        if(media!=null){
+            media.stop();}
+        else{
+        displayError("nothing to stop");
         }
     }
-    
     public void find(){
-        
         String searchEntry = nameEntry.getText();
         String size = sizeBox.getValue().toString().toLowerCase();
-        int sizeBird = 0;
-        
-        switch(size){
-            case "small": {
+        int sizeBird;
+        if("small".equals(size)){
                 sizeBird = 1;
-                break;
             }
-            
-            case "medium": {
+        if("medium".equals(size)){
                 sizeBird = 2;
-                break;
             }
-            
-            case "large":{
+        else{
                 sizeBird = 3;
-                break;
-            }   
-        }
+            }
         try{
-            current = tree.find(new DataKey(searchEntry,sizeBird));
-            updateScreen(current);
+            recordToUse = tree.find(new DataKey(searchEntry,sizeBird));
+            refreshPaneData(recordToUse);
         }catch(DictionaryException e){
             displayError(e.toString());
         }
     }
-    
-    private void displayError(String errorMsg) {
+    @FXML
+    public void exit() {
+        Stage stage = (Stage) mainMenu.getScene().getWindow();
+        stage.close();
+    }
+    private void displayError(String Message) {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Alert.fxml"));
             Parent AlertError = loader.load();
             AlertController controller = (AlertController) loader.getController();
-
             Scene scene = new Scene(AlertError);
             Stage stage = new Stage();
             stage.setScene(scene);
-            
-            String errorMsgRefined = errorMsg.substring(errorMsg.indexOf(":")+1);
-
+            String errorMessage = Message.substring(Message.indexOf(":")+1);
             stage.getIcons().add(new Image("file:src/birds/WesternLogo.png"));
-            controller.setMessage(errorMsgRefined);
-            stage.initModality(Modality.APPLICATION_MODAL);
+            controller.setMessage(errorMessage);
+            stage.initModality(Modality.APPLICATION_MODAL);//I have never known what this line does but I always include it 
             stage.showAndWait();
 
         } catch (IOException ex1) {
-
+            displayError(ex1.toString());
+            //lmao this defs could be an inf loop but its unlikely, still bad practice 
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         sizeBox.getItems().addAll("Small","Medium","Large");
         sizeBox.setValue(sizeBox.getItems().get(0));
-        
-        setStyling();
-        
+        changeStyle();
         show(false); 
     }
     

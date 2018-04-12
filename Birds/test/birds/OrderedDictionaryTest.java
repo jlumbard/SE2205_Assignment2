@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package birds;
 
 import org.junit.Test;
@@ -38,7 +34,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testFind() {
-        System.out.println("find");
         OrderedDictionary instance = new OrderedDictionary();
         // Insert 5 words in the dictionary and test the Find method
         try {
@@ -68,7 +63,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testInsert() throws Exception {
-        System.out.println("insert");
         OrderedDictionary instance = new OrderedDictionary();
         BirdRecord r = records[0];
         instance.insert(r);
@@ -81,7 +75,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testRemove() throws Exception {
-        System.out.println("remove");
         OrderedDictionary instance = new OrderedDictionary();        
         DataKey k = keys[3];
         try {
@@ -101,7 +94,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testSuccessor() {
-        System.out.println("successor");
         OrderedDictionary instance = new OrderedDictionary();
         // Insert 5 words in the dictionary and test the successor method
         try {
@@ -135,7 +127,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testPredecessor() {
-        System.out.println("predecessor");
             OrderedDictionary instance = new OrderedDictionary();
         // Insert 5 words in the dictionary and test the predecessor method
         try {
@@ -169,7 +160,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testSmallest() {
-        System.out.println("smallest");
         OrderedDictionary instance = new OrderedDictionary();
         // Insert 5 words in the dictionary and test the smallest method
         try {
@@ -187,7 +177,6 @@ public class OrderedDictionaryTest {
 
     @Test
     public void testLargest() {
-        System.out.println("largest");
         OrderedDictionary instance = new OrderedDictionary();
         // Insert 5 words in the dictionary and test the largest method
         try {

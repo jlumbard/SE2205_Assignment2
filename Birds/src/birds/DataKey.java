@@ -2,26 +2,24 @@ package birds;
 
 public class DataKey {
 
-    private String birdName;
-    private int birdSize;
+    private String name;
+    private int size;
 	// default constructor
         public DataKey(){}
     
 	public DataKey(String name, int size) {
-	 this.birdName = name;
-         this.birdSize = size;
-	}
-        
-        public String getBirdName(){
-        return birdName;
-        }
-        
-        public int getBirdSize(){
-        return birdSize;
-        }
-        
-	// other constructors
+         this.size = size;
+	 this.name = name;
 
+	}
+        public String getBirdName(){
+        return name;
+        }
+        public int getBirdSize(){
+        return size;
+        }
+	// other constructors
+        //necessary?
 	/**
 	 * Returns 0 if this DataKey is equal to k, returns -1 if this DataKey is smaller
 	 * than k, and it returns 1 otherwise. 
@@ -29,12 +27,12 @@ public class DataKey {
      * @return 
 	 */
 	public int compareTo(DataKey k) {
-           if (this.birdName.equalsIgnoreCase(k.birdName) && this.birdSize == k.birdSize){
-           return 0;
-           }  
-           else if (this.birdSize < k.birdSize ||(this.birdSize == k.birdSize && this.birdName.compareTo(k.birdName)<0)){
+            if (this.size < k.size ||(this.size == k.size && this.name.compareTo(k.name)<0)){
            return -1;
            }
+           else if  (this.size == k.size&&(this.name.equalsIgnoreCase(k.name))){
+           return 0;
+           } 
            else {
            return 1;
            }
